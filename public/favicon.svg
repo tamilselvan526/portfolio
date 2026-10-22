@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <rect width="64" height="64" rx="10" fill="#111315"/>
+  <rect x="2" y="2" width="60" height="60" rx="8" stroke="#FF3B30" stroke-opacity="0.4" stroke-width="2"/>
+  <!-- Corner brackets -->
+  <path d="M6 16V6H16" stroke="#FF3B30" stroke-width="2.5" stroke-linecap="square"/>
+  <path d="M48 6H58V16" stroke="#FF3B30" stroke-width="2.5" stroke-linecap="square"/>
+  <path d="M6 48V58H16" stroke="#FF3B30" stroke-width="2.5" stroke-linecap="square"/>
+  <path d="M48 58H58V48" stroke="#FF3B30" stroke-width="2.5" stroke-linecap="square"/>
+  <!-- Letter T Monogram -->
+  <path d="M18 20H46V27H36V46H28V27H18V20Z" fill="#FFFFFF"/>
+  <!-- Coral-Red Accent Dot -->
+  <circle cx="46" cy="46" r="3.5" fill="#FF3B30"/>
+</svg>
