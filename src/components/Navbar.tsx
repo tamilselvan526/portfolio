@@ -1,176 +1,113 @@
 import React, { useState, useEffect } from 'react';
-import { Mail, Menu, X, ArrowUpRight } from 'lucide-react';
-import { motion, useScroll, useSpring } from 'motion/react';
-import { GithubIcon, LinkedinIcon } from './Icons';
+import { ArrowUpRight, Menu, X } from 'lucide-react';
 
 export const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001
-  });
-
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 25);
+      setIsScrolled(window.scrollY > 40);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const navLinks = [
-    { label: 'ABOUT', href: '#about' },
-    { label: 'SELECTED WORK', href: '#work' },
-    { label: 'RESEARCH', href: '#research' },
-    { label: 'SYSTEMS', href: '#skills' },
-    { label: 'CONTACT', href: '#contact' },
+    { label: 'About', href: '#about' },
+    { label: 'Services', href: '#services' },
+    { label: 'Works', href: '#works' },
+    { label: 'Thoughts', href: '#thoughts' },
+    { label: 'Contact', href: '#contact' },
   ];
 
   return (
     <>
-      {/* Scroll Progress Bar */}
-      <motion.div 
-        className="scroll-progress-bar" 
-        style={{ scaleX }} 
-      />
+      <header
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 flex justify-center px-4 sm:px-6 pt-4 sm:pt-6 pointer-events-none`}
+      >
+        <nav
+          className={`pointer-events-auto flex items-center justify-between gap-6 sm:gap-8 px-4 sm:px-6 py-2.5 sm:py-3 rounded-full transition-all duration-300 ${
+            isScrolled
+              ? 'bg-[#111111]/92 backdrop-blur-xl border border-white/12 shadow-[0_12px_32px_rgba(0,0,0,0.35)]'
+              : 'bg-[#111111]/88 backdrop-blur-md border border-white/10 shadow-[0_8px_24px_rgba(0,0,0,0.25)]'
+          }`}
+        >
+          {/* Brand Logo */}
+          <a
+            href="#"
+            className="flex items-center gap-2 group text-white font-archivo font-bold text-sm tracking-tight"
+          >
+            <span className="w-2 h-2 rounded-full bg-[#10B981] group-hover:scale-125 transition-transform" />
+            <span className="group-hover:opacity-80 transition-opacity">Tamilselvan</span>
+          </a>
 
-      <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled 
-          ? 'bg-[#ECEAE5]/90 backdrop-blur-md border-b border-black/10 py-3 shadow-xs' 
-          : 'bg-transparent py-5'
-      }`}>
-        <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-20 max-w-[1920px] mx-auto">
-          <div className="flex items-center justify-between">
-            
-            {/* Personal Wordmark & Symbol */}
-            <a href="#hero" className="flex items-center gap-3 group">
-              <div className="w-8 h-8 bg-[#111315] text-white flex items-center justify-center group-hover:bg-[#FF3B30] transition-colors">
-                <span className="font-oxanium text-xs font-black">T</span>
-              </div>
-              <div>
-                <div className="flex items-center gap-2">
-                  <span className="font-oxanium font-extrabold text-sm tracking-[0.2em] text-[#111315] group-hover:text-[#FF3B30] transition-colors">
-                    TAMILSELVAN<span className="text-[#FF3B30]">.P</span>
-                  </span>
-                  <span className="inline-block w-2 h-2 rounded-full bg-[#FF3B30] animate-pulse" />
-                </div>
-                <p className="text-[10px] text-[#68696E] font-mono tracking-wider uppercase">
-                  AI / ML SYSTEMS &bull; COMPUTER VISION
-                </p>
-              </div>
-            </a>
-
-            {/* Desktop Navigation Links */}
-            <nav className="hidden lg:flex items-center gap-1 bg-[#111315]/5 backdrop-blur-md px-4 py-1.5 rounded-full border border-black/10">
-              {navLinks.map((link) => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  className="px-3.5 py-1 text-xs font-space font-medium text-[#111315] hover:text-[#FF3B30] hover:bg-black/5 rounded-full transition-all tracking-wider"
-                >
-                  {link.label}
-                </a>
-              ))}
-            </nav>
-
-            {/* Desktop Action Buttons */}
-            <div className="hidden sm:flex items-center gap-3">
-              <a
-                href="https://github.com/tamilselvan526"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2 rounded-full text-[#111315] hover:text-[#FF3B30] hover:bg-black/5 transition-all"
-                aria-label="GitHub Profile"
-              >
-                <GithubIcon className="w-4 h-4" />
-              </a>
-
-              <a
-                href="https://www.linkedin.com/in/tamilselvan-panchamoorthy-55973b2a5/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2 rounded-full text-[#111315] hover:text-[#FF3B30] hover:bg-black/5 transition-all"
-                aria-label="LinkedIn Profile"
-              >
-                <LinkedinIcon className="w-4 h-4" />
-              </a>
-
-              <a
-                href="#contact"
-                className="inline-flex items-center gap-2 px-4 py-2 bg-[#FF3B30] text-white text-xs font-oxanium font-bold tracking-widest uppercase hover:bg-[#e03126] transition-all shadow-sm group"
-              >
-                <span>LET&apos;S TALK</span>
-                <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-              </a>
-            </div>
-
-            {/* Mobile Menu Button */}
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden p-2 rounded-md bg-[#111315] text-white hover:bg-[#FF3B30] transition-colors"
-              aria-label="Toggle navigation menu"
-            >
-              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-            </button>
-
-          </div>
-        </div>
-      </header>
-
-      {/* Mobile Drawer Menu */}
-      {mobileMenuOpen && (
-        <div className="fixed inset-0 z-40 bg-[#ECEAE5]/95 backdrop-blur-xl lg:hidden flex flex-col pt-24 px-6 pb-8 justify-between">
-          <div className="space-y-4">
-            <div className="text-xs font-mono text-[#68696E] uppercase tracking-widest pb-2 border-b border-black/10">
-              // NAVIGATION DIRECTORY
-            </div>
+          {/* Desktop Links */}
+          <div className="hidden md:flex items-center gap-1 sm:gap-2">
             {navLinks.map((link) => (
               <a
-                key={link.href}
+                key={link.label}
                 href={link.href}
-                onClick={() => setMobileMenuOpen(false)}
-                className="block text-2xl font-oxanium font-bold text-[#111315] hover:text-[#FF3B30] py-2 transition-colors uppercase"
+                className="px-3 py-1.5 text-xs text-white/70 hover:text-white font-inter font-medium rounded-full hover:bg-white/10 transition-colors"
               >
                 {link.label}
               </a>
             ))}
           </div>
 
-          <div className="pt-6 border-t border-black/10 space-y-4">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-mono text-[#68696E]">CONNECT WITH ME:</span>
-              <div className="flex items-center gap-3">
-                <a
-                  href="https://github.com/tamilselvan526"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-2.5 bg-black/5 text-[#111315] hover:text-[#FF3B30] transition-colors"
-                  aria-label="GitHub Profile"
-                >
-                  <GithubIcon className="w-4 h-4" />
-                </a>
-                <a
-                  href="https://www.linkedin.com/in/tamilselvan-panchamoorthy-55973b2a5/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-2.5 bg-black/5 text-[#111315] hover:text-[#FF3B30] transition-colors"
-                  aria-label="LinkedIn Profile"
-                >
-                  <LinkedinIcon className="w-4 h-4" />
-                </a>
-              </div>
-            </div>
-
+          {/* CTA Button */}
+          <div className="flex items-center gap-2">
             <a
-              href="mailto:tamilselvanpanchamoorthy@gmail.com"
-              className="w-full py-3.5 bg-[#FF3B30] text-white flex items-center justify-center gap-2 font-oxanium font-bold text-xs uppercase tracking-widest"
+              href="#contact"
+              className="hidden sm:inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-white text-[#111111] font-inter font-semibold text-xs hover:bg-[#FAF7F3] hover:scale-105 active:scale-95 transition-all shadow-sm"
             >
-              <Mail className="w-4 h-4" />
-              <span>SEND DIRECT DISPATCH</span>
+              <span>Let’s Talk</span>
+              <ArrowUpRight className="w-3.5 h-3.5" />
+            </a>
+
+            {/* Mobile Hamburger */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="md:hidden p-1.5 text-white/80 hover:text-white rounded-full hover:bg-white/10 transition-colors"
+              aria-label="Toggle Navigation Menu"
+            >
+              {mobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
+            </button>
+          </div>
+        </nav>
+      </header>
+
+      {/* Mobile Drawer */}
+      {mobileMenuOpen && (
+        <div className="fixed inset-0 z-40 bg-black/60 backdrop-blur-md flex flex-col justify-center items-center px-6 md:hidden animate-fade-in">
+          <div className="w-full max-w-sm bg-[#111111] border border-white/15 rounded-3xl p-6 flex flex-col gap-4 shadow-2xl">
+            <div className="flex justify-between items-center pb-3 border-b border-white/10">
+              <span className="text-white font-archivo font-bold text-sm">Navigation</span>
+              <button
+                onClick={() => setMobileMenuOpen(false)}
+                className="text-white/60 hover:text-white p-1"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <div className="flex flex-col gap-2">
+              {navLinks.map((link) => (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="px-4 py-3 rounded-xl text-sm font-inter text-white/80 hover:text-white hover:bg-white/5 transition-colors"
+                >
+                  {link.label}
+                </a>
+              ))}
+            </div>
+            <a
+              href="#contact"
+              onClick={() => setMobileMenuOpen(false)}
+              className="w-full text-center py-3 rounded-full bg-white text-[#111111] font-inter font-semibold text-sm hover:bg-[#FAF7F3] transition-colors mt-2"
+            >
+              Let’s Talk
             </a>
           </div>
         </div>
