@@ -10,8 +10,8 @@ export const ProjectsSection: React.FC = () => {
       category: 'Hybrid Quantum-Classical Image Dehazing',
       image: '/projects/fogvision/fog_vision_hero.png',
       description:
-        'Two-stage image dehazing pipeline using EfficientNet-B0 for 4-class fog density classification and a Hybrid Quantum-Classical U-Net with a 4-qubit VQC bottleneck. Deployed via ONNX, REST, and Next.js.',
-      github: 'https://github.com/tamilselvan526',
+        'Two-stage image dehazing pipeline using EfficientNet-B0 for 4-class fog density classification and a Hybrid Quantum-Classical U-Net with a 4-qubit VQC bottleneck. Deployed with ONNX and Next.js.',
+      github: 'https://github.com/tamilselvan526/QuantumDehazer',
     },
     {
       id: 'casting',
@@ -20,7 +20,7 @@ export const ProjectsSection: React.FC = () => {
       image: '/projects/casting/casting_industrial_real.jpg',
       description:
         '4-class industrial casting defect classification system benchmarking and comparing Custom CNN, MobileNetV2, and ResNet50 architectures. Deployed with Flask-based real-time inference.',
-      github: 'https://github.com/tamilselvan526',
+      github: 'https://github.com/tamilselvan526/Automated-casting-defect-classification-using-multiple-cnn',
     },
     {
       id: 'shopkart',
@@ -29,16 +29,16 @@ export const ProjectsSection: React.FC = () => {
       image: '/projects/shopkart/shopkart_hero.png',
       description:
         'Full-stack e-commerce platform with JWT authentication, role-based access control, product browsing, cart management, MySQL database, and modular Redux-based frontend architecture.',
-      github: 'https://github.com/tamilselvan526',
+      github: 'https://github.com/tamilselvan526/shopkart',
     },
     {
-      id: 'edge-vision',
-      title: 'Edge AI Autonomous Perception',
-      category: 'Real-Time Embedded Computer Vision',
-      image: '/assets/majd_ref/project_2.png',
+      id: 'self-pruning-nn',
+      title: 'Self-Pruning Neural Network',
+      category: 'Deep Learning Research & Sparsity Optimization',
+      image: '/projects/self_pruning_nn.png',
       description:
-        'Embedded edge vision pipeline benchmarking low-latency inference on NVIDIA Jetson architectures with ONNX Runtime, OpenCV preprocessing, and multi-stream telemetry monitoring.',
-      github: 'https://github.com/tamilselvan526',
+        'Self-Pruning Neural Network utilizing L1 regularization on continuous sigmoid gates evaluated on CIFAR-10. Achieves over 82% parameter sparsity with minimal degradation in classification accuracy.',
+      github: 'https://github.com/tamilselvan526/self-pruning-neural-network',
     },
   ];
 
@@ -53,7 +53,7 @@ export const ProjectsSection: React.FC = () => {
           </h2>
 
           <a
-            href="https://github.com/tamilselvan526"
+            href="https://github.com/tamilselvan526?tab=repositories"
             target="_blank"
             rel="noreferrer"
             className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-inter font-medium text-[#111111] hover:text-[#EB4D6D] transition-colors group"
@@ -78,7 +78,7 @@ export const ProjectsSection: React.FC = () => {
               className="flex flex-col gap-4 group cursor-pointer"
             >
               {/* Rounded Project Thumbnail Container with smooth zoom */}
-              <div className="w-full aspect-[16/11] rounded-[24px] overflow-hidden bg-[#ECEAE5] border border-[#111111]/8 shadow-sm relative">
+              <div className="w-full aspect-[16/10] rounded-[24px] overflow-hidden bg-[#ECEAE5] border border-[#111111]/8 shadow-sm relative">
                 <img
                   src={project.image}
                   alt={project.title}
