@@ -5,7 +5,7 @@ import { HeyBioSection } from './components/HeyBioSection';
 import { KineticBanner } from './components/KineticBanner';
 import { ServicesSection } from './components/ServicesSection';
 import { ProjectsSection } from './components/ProjectsSection';
-import { TestimonialsSection } from './components/TestimonialsSection';
+import { ExperienceCertificationsSection } from './components/ExperienceCertificationsSection';
 import { ThoughtsSection } from './components/ThoughtsSection';
 import { ContactSection } from './components/ContactSection';
 import { FooterSection } from './components/FooterSection';
@@ -20,7 +20,7 @@ export const App: React.FC = () => {
         <KineticBanner />
         <ServicesSection />
         <ProjectsSection />
-        <TestimonialsSection />
+        <ExperienceCertificationsSection />
         <ThoughtsSection />
         <ContactSection />
       </main>

@@ -7,7 +7,7 @@ export const Hero: React.FC = () => {
 
   return (
     <section className="relative w-full bg-[#0B0C0E] pt-24 sm:pt-28 pb-12 sm:pb-16 px-3 sm:px-6 md:px-8 flex justify-center items-center overflow-hidden">
-      {/* Ambient background glow & subtle vignette */}
+      {/* Ambient background glow matching the video */}
       <div className="absolute inset-0 pointer-events-none opacity-40">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-gradient-to-tr from-[#EB4D6D]/15 via-indigo-900/10 to-transparent blur-3xl rounded-full" />
       </div>
@@ -65,23 +65,22 @@ export const Hero: React.FC = () => {
             </div>
           </motion.div>
 
-          {/* Giant Display Title: SOFTWARE ENGINEER -> AI & ML ENGINEER */}
+          {/* Giant Display Title: SOFTWARE ENGINEER */}
           <h1 className="font-archivo font-black text-5xl sm:text-7xl md:text-8xl lg:text-[112px] xl:text-[128px] leading-[0.88] text-[#111111] tracking-[-0.04em] uppercase select-none">
             <span className="block">SOFTWARE</span>
             <span className="block mt-1 sm:mt-2">ENGINEER</span>
           </h1>
 
-          {/* Secondary Subtitle Pill Tag */}
+          {/* Secondary Subtitle Pill Tag with authentic CV summary */}
           <div className="mt-4 sm:mt-6 inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#111111]/5 border border-[#111111]/10 text-xs font-mono font-medium text-[#111111]/80">
             <span className="w-1.5 h-1.5 rounded-full bg-[#10B981] animate-pulse" />
-            <span>AI & ML SPECIALIST • DEEP LEARNING & COMPUTER VISION</span>
+            <span>AI & ML ENGINEER • DEEP LEARNING & COMPUTER VISION</span>
           </div>
         </div>
 
         {/* Bottom Inset Portrait (overlapping and centered) */}
         <div className="relative flex justify-center -mb-2 sm:-mb-4 z-20">
           <div className="relative group">
-            {/* The Inset Portrait Frame */}
             <motion.div
               whileHover={{ scale: 1.03 }}
               transition={{ duration: 0.3 }}
@@ -99,7 +98,6 @@ export const Hero: React.FC = () => {
                 className="w-full h-full object-cover transition-opacity duration-300"
               />
 
-              {/* Toggle Badge on Hover */}
               <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-[11px] font-inter font-medium gap-1 backdrop-blur-xs">
                 <Camera className="w-3.5 h-3.5" />
                 <span>Toggle style</span>

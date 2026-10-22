@@ -3,97 +3,111 @@ import { motion } from 'motion/react';
 import { ArrowUpRight } from 'lucide-react';
 
 export const ThoughtsSection: React.FC = () => {
-  const articles = [
-    {
-      date: 'May 5, 2025',
-      readTime: '6 min read',
-      title: 'Real-Time Inference Optimization on Embedded Automotive Compute',
-      description:
-        'A technical deep dive into INT8 quantization, TensorRT kernel compilation, and batch scheduling to unlock 40+ FPS on Jetson Orin architectures.',
-      tags: ['Edge AI', 'TensorRT', 'Hardware'],
-    },
-    {
-      date: 'June 16, 2025',
-      readTime: '8 min read',
-      title: 'Computer Vision in Harsh Weather: Synthetic Dehazing vs Optical Sensors',
-      description:
-        'Comparing single-image optical transmission recovery models with multi-sensor lidar under dense fog, rain scatter, and low-light highway conditions.',
-      tags: ['Computer Vision', 'Dehazing', 'Mobility'],
-    },
-    {
-      date: 'July 28, 2025',
-      readTime: '5 min read',
-      title: 'Designing Resilient Defect Detection Systems for High-Throughput Manufacturing',
-      description:
-        'Techniques for handling extreme class imbalance, false negatives, and operational distribution drift across continuous cast metal production lines.',
-      tags: ['Deep Learning', 'Industrial QA', 'CNN'],
-    },
-  ];
-
   return (
     <section id="thoughts" className="w-full bg-[#FAF7F3] py-20 sm:py-28 md:py-32 px-6 sm:px-10 lg:px-16 border-b border-[#111111]/8">
-      <div className="max-w-[1200px] mx-auto flex flex-col gap-12 sm:gap-16">
+      <div className="max-w-[1200px] mx-auto flex flex-col gap-10 sm:gap-14">
         
-        {/* Section Header */}
-        <div className="flex flex-col sm:flex-row justify-between sm:items-end gap-4 pb-6 border-b border-[#111111]/8">
-          <div>
-            <span className="text-xs font-mono font-semibold uppercase tracking-wider text-[#888888]">
-              / RESEARCH & TECHNICAL WRITING
-            </span>
-            <h2 className="font-archivo font-black text-4xl sm:text-5xl md:text-6xl text-[#111111] tracking-tight mt-1">
-              Thoughts
-            </h2>
-          </div>
-          <p className="text-xs sm:text-sm font-inter text-[#666666] max-w-md">
-            Articles and engineering notes on deep learning pipelines, edge optimization, and autonomous perception.
-          </p>
+        {/* Section Header matching Video 00:22 */}
+        <div>
+          <h2 className="font-archivo font-black text-4xl sm:text-5xl md:text-6xl text-[#111111] tracking-tight">
+            Thoughts
+          </h2>
         </div>
 
-        {/* 3-Column Editorial Article Cards */}
+        {/* 3-Column Grid matching Video 00:23 */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-          {articles.map((article, index) => (
-            <motion.div
-              key={article.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              className="framer-card rounded-3xl p-7 sm:p-8 flex flex-col justify-between gap-6 group cursor-pointer"
-            >
-              <div className="flex flex-col gap-4">
-                <div className="flex items-center justify-between text-xs font-inter text-[#888888]">
-                  <span>{article.date}</span>
-                  <span>{article.readTime}</span>
-                </div>
+          
+          {/* Card 1: Article with Dark Image Background */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="rounded-[28px] overflow-hidden bg-[#111111] text-white p-8 flex flex-col justify-end min-h-[420px] relative group cursor-pointer shadow-lg"
+          >
+            {/* Background Image with Dark Vignette */}
+            <div className="absolute inset-0 z-0">
+              <img
+                src="/projects/fogvision/fog_vision_hero.png"
+                alt="Quantum Dehazing"
+                className="w-full h-full object-cover opacity-35 group-hover:scale-105 group-hover:opacity-45 transition-all duration-700"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#111111] via-[#111111]/70 to-transparent" />
+            </div>
 
-                <h3 className="font-archivo font-bold text-xl sm:text-2xl text-[#111111] tracking-tight group-hover:text-[#EB4D6D] transition-colors leading-snug">
-                  {article.title}
-                </h3>
-
-                <p className="text-xs sm:text-sm font-inter text-[#555555] leading-relaxed">
-                  {article.description}
-                </p>
+            <div className="relative z-10 flex flex-col gap-3">
+              <div className="text-xs font-mono text-white/60">
+                May 5, 2025 • 6 min read
               </div>
+              <h3 className="font-archivo font-bold text-2xl text-white group-hover:text-[#EB4D6D] transition-colors leading-snug">
+                Hybrid Quantum-Classical Image Dehazing with 4-Qubit VQC
+              </h3>
+              <p className="text-xs font-inter text-white/70 line-clamp-3 leading-relaxed">
+                Integrating a differentiable quantum layer into U-Net bottlenecks to enhance high-frequency feature recovery in heavy atmospheric fog.
+              </p>
+            </div>
+          </motion.div>
 
-              {/* Tags & Action */}
-              <div className="flex items-center justify-between pt-4 border-t border-[#111111]/6">
-                <div className="flex flex-wrap gap-1.5">
-                  {article.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="px-2 py-0.5 rounded-full bg-[#FAF7F3] border border-[#111111]/8 text-[11px] font-inter text-[#666666]"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
+          {/* Card 2: Article with Industrial Vision Background */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="rounded-[28px] overflow-hidden bg-[#111111] text-white p-8 flex flex-col justify-end min-h-[420px] relative group cursor-pointer shadow-lg"
+          >
+            <div className="absolute inset-0 z-0">
+              <img
+                src="/projects/casting/casting_industrial_real.jpg"
+                alt="Industrial Inspection"
+                className="w-full h-full object-cover opacity-30 group-hover:scale-105 group-hover:opacity-40 transition-all duration-700"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#111111] via-[#111111]/70 to-transparent" />
+            </div>
 
-                <div className="p-1.5 rounded-full bg-[#FAF7F3] text-[#111111] group-hover:bg-[#111111] group-hover:text-white transition-colors">
-                  <ArrowUpRight className="w-4 h-4" />
-                </div>
+            <div className="relative z-10 flex flex-col gap-3">
+              <div className="text-xs font-mono text-white/60">
+                Jun 16, 2025 • 8 min read
               </div>
-            </motion.div>
-          ))}
+              <h3 className="font-archivo font-bold text-2xl text-white group-hover:text-[#EB4D6D] transition-colors leading-snug">
+                Industrial Defect Detection: Custom CNN vs MobileNetV2 vs ResNet50
+              </h3>
+              <p className="text-xs font-inter text-white/70 line-clamp-3 leading-relaxed">
+                Comparative evaluation of convolutional architectures across 4-class casting defects, balancing inference latency with 99.2% accuracy.
+              </p>
+            </div>
+          </motion.div>
+
+          {/* Card 3: Solid Dark Callout Card matching Video 00:23 */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="rounded-[28px] bg-[#111111] text-white p-8 sm:p-10 flex flex-col justify-between min-h-[420px] shadow-lg"
+          >
+            <div className="flex flex-col gap-4">
+              <div className="text-xs font-mono text-white/50 uppercase tracking-wider">
+                / RESEARCH NOTES
+              </div>
+              <h3 className="font-archivo font-black text-3xl sm:text-4xl text-white leading-tight tracking-tight">
+                See how we architect deep learning models with mathematical rigor—explore our technical notes
+              </h3>
+            </div>
+
+            <div className="pt-6 border-t border-white/10">
+              <a
+                href="https://github.com/tamilselvan526"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 text-xs font-inter font-semibold text-white hover:text-[#EB4D6D] transition-colors group"
+              >
+                <span>View All Work</span>
+                <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              </a>
+            </div>
+          </motion.div>
+
         </div>
 
       </div>

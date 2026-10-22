@@ -17,33 +17,32 @@ export const Navbar: React.FC = () => {
     { label: 'About', href: '#about' },
     { label: 'Services', href: '#services' },
     { label: 'Works', href: '#works' },
+    { label: 'Experience', href: '#experience' },
     { label: 'Thoughts', href: '#thoughts' },
     { label: 'Contact', href: '#contact' },
   ];
 
   return (
     <>
-      <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 flex justify-center px-4 sm:px-6 pt-4 sm:pt-6 pointer-events-none`}
-      >
+      <header className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 flex justify-center px-4 pt-4 sm:pt-6 pointer-events-none">
         <nav
-          className={`pointer-events-auto flex items-center justify-between gap-6 sm:gap-8 px-4 sm:px-6 py-2.5 sm:py-3 rounded-full transition-all duration-300 ${
+          className={`pointer-events-auto flex items-center justify-between gap-5 sm:gap-7 px-4 sm:px-6 py-2.5 sm:py-3 rounded-full transition-all duration-300 ${
             isScrolled
-              ? 'bg-[#111111]/92 backdrop-blur-xl border border-white/12 shadow-[0_12px_32px_rgba(0,0,0,0.35)]'
-              : 'bg-[#111111]/88 backdrop-blur-md border border-white/10 shadow-[0_8px_24px_rgba(0,0,0,0.25)]'
+              ? 'bg-[#111111]/95 backdrop-blur-xl border border-white/15 shadow-[0_12px_36px_rgba(0,0,0,0.35)]'
+              : 'bg-[#111111]/90 backdrop-blur-md border border-white/10 shadow-[0_8px_24px_rgba(0,0,0,0.25)]'
           }`}
         >
-          {/* Brand Logo */}
+          {/* Brand Logo matching Majd Framer capsule */}
           <a
             href="#"
             className="flex items-center gap-2 group text-white font-archivo font-bold text-sm tracking-tight"
           >
             <span className="w-2 h-2 rounded-full bg-[#10B981] group-hover:scale-125 transition-transform" />
-            <span className="group-hover:opacity-80 transition-opacity">Tamilselvan</span>
+            <span className="group-hover:opacity-85 transition-opacity">Tamilselvan</span>
           </a>
 
           {/* Desktop Links */}
-          <div className="hidden md:flex items-center gap-1 sm:gap-2">
+          <div className="hidden md:flex items-center gap-1">
             {navLinks.map((link) => (
               <a
                 key={link.label}
@@ -55,7 +54,7 @@ export const Navbar: React.FC = () => {
             ))}
           </div>
 
-          {/* CTA Button */}
+          {/* Right Action */}
           <div className="flex items-center gap-2">
             <a
               href="#contact"
