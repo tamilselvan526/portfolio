@@ -28,11 +28,7 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
-  h1,
-  h2,
-  h3,
-  h4,
-  .font-heading {
+  h1, h2, h3, h4, .font-heading {
     font-family: var(--font-archivo);
     letter-spacing: -0.03em;
   }
@@ -82,24 +78,18 @@
 
 /* 3D floating animation */
 @keyframes float-subtle {
-
-  0%,
-  100% {
+  0%, 100% {
     transform: translateY(0px) rotate(0deg);
   }
-
   50% {
     transform: translateY(-8px) rotate(2deg);
   }
 }
 
 @keyframes float-subtle-reverse {
-
-  0%,
-  100% {
+  0%, 100% {
     transform: translateY(0px) rotate(0deg);
   }
-
   50% {
     transform: translateY(8px) rotate(-2deg);
   }
@@ -117,16 +107,13 @@
 ::-webkit-scrollbar {
   width: 8px;
 }
-
 ::-webkit-scrollbar-track {
   background: #FAF7F3;
 }
-
 ::-webkit-scrollbar-thumb {
   background: #D5D2CD;
   border-radius: 4px;
 }
-
 ::-webkit-scrollbar-thumb:hover {
   background: #B8B5B0;
 }

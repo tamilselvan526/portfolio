@@ -5,10 +5,10 @@ export const FooterSection: React.FC = () => {
   return (
     <footer className="w-full bg-[#111111] text-white pt-20 sm:pt-28 pb-12 px-6 sm:px-10 lg:px-16 overflow-hidden">
       <div className="max-w-[1200px] mx-auto flex flex-col gap-16">
-
+        
         {/* Main Footer Grid matching Video 00:28 */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-10 items-start">
-
+          
           {/* Left Column: Big Headline */}
           <div className="md:col-span-6 flex flex-col gap-3">
             <h3 className="font-archivo font-black text-3xl sm:text-4xl md:text-5xl text-white tracking-tight leading-[1.05]">

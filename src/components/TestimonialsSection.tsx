@@ -37,7 +37,7 @@ export const TestimonialsSection: React.FC = () => {
   return (
     <section className="w-full bg-[#FAF7F3] py-20 sm:py-28 md:py-32 px-6 sm:px-10 lg:px-16 border-b border-[#111111]/8">
       <div className="max-w-[1200px] mx-auto flex flex-col gap-12 sm:gap-16">
-
+        
         {/* Section Header */}
         <div className="flex flex-col sm:flex-row justify-between sm:items-end gap-4 pb-6 border-b border-[#111111]/8">
           <div>
