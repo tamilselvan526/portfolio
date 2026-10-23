@@ -1,181 +1,356 @@
-import React from 'react';
-import { motion, useScroll, useTransform } from 'motion/react';
+import React, { useRef } from 'react';
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useSpring,
+} from 'motion/react';
 import { ArrowUpRight } from 'lucide-react';
 
-export const Hero: React.FC = () => {
-  // Track scroll position for butter-smooth 3D flip transition matching Video ref 2
-  const { scrollY } = useScroll();
+const EASE_EXPO = [0.16, 1, 0.3, 1] as const;
 
-  // Scroll 0 -> 440px flips the card smoothly around Y-axis from 0° (dark portrait) to 180° (red portrait)
-  const rotateY = useTransform(scrollY, [0, 440], [0, 180], { clamp: true });
-  const scale = useTransform(scrollY, [0, 440], [0.95, 1.0], { clamp: true });
+// Clip-reveal line animation for initial entrance
+const LineReveal: React.FC<{
+  children: React.ReactNode;
+  delay?: number;
+  className?: string;
+}> = ({ children, delay = 0, className = '' }) => (
+  <div className={`overflow-hidden ${className}`}>
+    <motion.div
+      initial={{ y: '105%' }}
+      animate={{ y: 0 }}
+      transition={{ duration: 0.9, ease: EASE_EXPO, delay }}
+    >
+      {children}
+    </motion.div>
+  </div>
+);
+
+export const Hero: React.FC = () => {
+  const containerRef = useRef<HTMLElement>(null);
+
+  // Scroll progress for the entire 220vh Hero section (0 = Slide 1 top, 1 = Slide 2 settled)
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ['start start', 'end end'],
+  });
+
+  // Smooth out progress with a subtle spring for fluid buttery feel
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 140,
+    damping: 32,
+    mass: 0.6,
+  });
+
+  // ── Slide 1 Transforms (Headline & Floating Icons) ────────────────────
+  const headlineOpacity = useTransform(smoothProgress, [0, 0.3], [1, 0]);
+  const headlineY       = useTransform(smoothProgress, [0, 0.35], [0, -110]);
+  const headlineScale   = useTransform(smoothProgress, [0, 0.35], [1, 0.94]);
+  const iconsOpacity    = useTransform(smoothProgress, [0, 0.22], [1, 0]);
+  const iconsY          = useTransform(smoothProgress, [0, 0.25], [0, -70]);
+  const slide1BottomOpacity = useTransform(smoothProgress, [0, 0.18], [1, 0]);
+
+  // ── Portrait Transition (Small at bottom of Slide 1 → Large in center of Slide 2) ──
+  // At progress 0 (Slide 1): Scale ~0.50 (w ~160px), shifted down toward bottom bar
+  // At progress 0.6+ (Slide 2): Scale 1.0 (w ~320px), centered in bio grid
+  const portraitScale   = useTransform(smoothProgress, [0, 0.6], [0.50, 1]);
+  const portraitY       = useTransform(smoothProgress, [0, 0.6], [180, 0]);
+  const portraitRotateY = useTransform(smoothProgress, [0.06, 0.55], [26, 0]);
+  
+  // Color treatment cross-fade: Monochrome (1→0) into Vivid Red Backlight (0→1)
+  const monoLayerOpacity  = useTransform(smoothProgress, [0.08, 0.48], [1, 0]);
+  const colorLayerOpacity = useTransform(smoothProgress, [0.12, 0.55], [0, 1]);
+
+  // ── Slide 2 Transforms (Bio Content & Action Buttons) ─────────────────
+  const bioLeftOpacity  = useTransform(smoothProgress, [0.32, 0.65], [0, 1]);
+  const bioLeftX        = useTransform(smoothProgress, [0.32, 0.65], [-45, 0]);
+  const bioLeftY        = useTransform(smoothProgress, [0.32, 0.65], [24, 0]);
+
+  const bioRightOpacity = useTransform(smoothProgress, [0.38, 0.7], [0, 1]);
+  const bioRightX       = useTransform(smoothProgress, [0.38, 0.7], [45, 0]);
+  const bioRightY       = useTransform(smoothProgress, [0.38, 0.7], [24, 0]);
 
   return (
-    <section className="relative w-full bg-[#FAF7F3] pt-24 sm:pt-28 pb-20 sm:pb-32 overflow-hidden select-none">
-      
-      {/* 3D Floating Chrome Elements matching Video 00:00 */}
-      {/* Top-Left Floating 3D Chrome Star Sparkle */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.6 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ delay: 0.15, duration: 0.8 }}
-        className="absolute top-24 sm:top-28 left-3 sm:left-10 md:left-20 lg:left-28 w-16 sm:w-24 md:w-32 lg:w-36 h-16 sm:h-24 md:h-28 lg:h-36 pointer-events-none select-none z-20"
-      >
-        <div className="animate-float-slow w-full h-full">
-          <img
-            src="/assets/majd_ref/bolt_3d.png"
-            alt="3D Iridescent Star Sparkle"
-            className="w-full h-full object-contain drop-shadow-[0_12px_28px_rgba(0,0,0,0.18)]"
-          />
-        </div>
-      </motion.div>
+    <section
+      ref={containerRef}
+      className="relative w-full bg-[#FAF7F3] h-[220vh]"
+    >
+      {/* Sticky Viewport Frame (Pins during scroll for smooth slide transition) */}
+      <div className="sticky top-0 h-screen w-full overflow-hidden flex flex-col justify-between pt-20 sm:pt-24 pb-8 sm:pb-12 px-6 sm:px-10 lg:px-16 select-none">
 
-      {/* Bottom-Right Floating 3D Chrome Lightning Bolt */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.6 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ delay: 0.25, duration: 0.8 }}
-        className="absolute top-52 sm:top-60 right-3 sm:right-10 md:right-20 lg:right-28 w-16 sm:w-24 md:w-32 lg:w-36 h-16 sm:h-24 md:h-28 lg:h-36 pointer-events-none select-none z-20"
-      >
-        <div className="animate-float-slow-reverse w-full h-full">
-          <img
-            src="/assets/majd_ref/sparkle_3d.png"
-            alt="3D Iridescent Lightning Bolt"
-            className="w-full h-full object-contain drop-shadow-[0_12px_28px_rgba(0,0,0,0.18)]"
-          />
-        </div>
-      </motion.div>
-
-      {/* Hero Display Typography Area */}
-      <div className="relative w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-16 flex flex-col items-center justify-center text-center pt-6 sm:pt-12 pb-8 sm:pb-14">
-        
-        {/* Giant Display Title: SOFTWARE ENGINEER */}
-        <h1 className="font-archivo font-black text-6xl sm:text-8xl md:text-9xl lg:text-[130px] xl:text-[154px] 2xl:text-[170px] leading-[0.86] text-[#111111] tracking-[-0.045em] uppercase select-none w-full">
-          <span className="block">SOFTWARE</span>
-          <span className="block mt-1 sm:mt-2">ENGINEER</span>
-        </h1>
-
-        {/* Technical Subtitle Badge matching CV */}
-        <div className="mt-5 sm:mt-7 inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#111111]/5 border border-[#111111]/10 text-xs font-mono font-medium text-[#111111]/85 shadow-sm">
-          <span className="w-2 h-2 rounded-full bg-[#10B981] animate-pulse" />
-          <span>AI & ML ENGINEER • DEEP LEARNING & COMPUTER VISION</span>
-        </div>
-      </div>
-
-      {/* 3-Column Seam Area bridging Hero to Bio matching Video 00:00 to 00:08 */}
-      <div id="about" className="relative w-full max-w-[1280px] mx-auto px-6 sm:px-10 lg:px-16 -mt-4 sm:-mt-8 lg:-mt-12 z-20">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
-          
-          {/* Left Column: ©2026 header, then Hey! and Academic Background */}
-          <div className="lg:col-span-4 flex flex-col justify-between h-full gap-8">
-            <div className="text-sm sm:text-base font-archivo font-bold text-[#111111] pt-2">
-              ©2026
-            </div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7 }}
-              className="flex flex-col gap-5 pt-2 lg:pt-16"
-            >
-              <h2 className="font-archivo font-black text-6xl sm:text-7xl md:text-8xl text-[#111111] tracking-tight leading-none">
-                Hey!
-              </h2>
-              <p className="font-inter text-base sm:text-lg text-[#333333] leading-relaxed">
-                I’m Tamilselvan, an AI/ML Engineer and researcher based in Chennai, India, completing my B.Tech in CSE (AI & ML) at SRM Institute of Science and Technology (CGPA: 8.20/10).
-              </p>
-            </motion.div>
+        {/* ── Floating 3D Icons (Fade out on scroll) ─────────────────── */}
+        <motion.div
+          style={{ opacity: iconsOpacity, y: iconsY }}
+          className="absolute top-24 sm:top-28 left-4 sm:left-12 md:left-20 lg:left-28
+                     w-16 sm:w-24 md:w-28 lg:w-32 aspect-square pointer-events-none z-30"
+        >
+          <div className="animate-float-slow w-full h-full">
+            <img
+              src="/assets/majd_ref/bolt_3d.png"
+              alt=""
+              aria-hidden="true"
+              className="w-full h-full object-contain drop-shadow-[0_12px_28px_rgba(0,0,0,0.18)]"
+            />
           </div>
+        </motion.div>
 
-          {/* Center Column: 3D Flip Card Transition matching Video ref 2 frames 00:00 to 00:08 */}
-          <div className="lg:col-span-4 flex justify-center py-2 sm:py-4" style={{ perspective: '1200px' }}>
+        <motion.div
+          style={{ opacity: iconsOpacity, y: iconsY }}
+          className="absolute top-48 sm:top-56 right-4 sm:right-12 md:right-20 lg:right-28
+                     w-14 sm:w-20 md:w-24 lg:w-28 aspect-square pointer-events-none z-30"
+        >
+          <div className="animate-float-slow-reverse w-full h-full">
+            <img
+              src="/assets/majd_ref/sparkle_3d.png"
+              alt=""
+              aria-hidden="true"
+              className="w-full h-full object-contain drop-shadow-[0_12px_28px_rgba(0,0,0,0.18)]"
+            />
+          </div>
+        </motion.div>
+
+        {/* ── Slide 1 Headline (Moves up and fades on scroll) ────────── */}
+        <motion.div
+          style={{
+            opacity: headlineOpacity,
+            y: headlineY,
+            scale: headlineScale,
+          }}
+          className="relative w-full max-w-[1440px] mx-auto z-20 pt-4 sm:pt-8"
+        >
+          <h1
+            className="font-archivo font-black text-[clamp(44px,9vw,148px)]
+                       leading-[0.88] text-[#111111] tracking-[-0.045em]
+                       uppercase text-center"
+          >
+            <LineReveal delay={0.05}>
+              <span className="block">SOFTWARE</span>
+            </LineReveal>
+            <LineReveal delay={0.16}>
+              <span className="block">ENGINEER</span>
+            </LineReveal>
+          </h1>
+
+          {/* Availability badge */}
+          <div className="flex justify-center mt-4 sm:mt-6">
+            <div
+              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full
+                         bg-[#111111]/5 border border-[#111111]/10
+                         text-[11px] sm:text-xs font-mono font-medium text-[#111111]/85 shadow-sm"
+            >
+              <span className="w-2 h-2 rounded-full bg-[#10B981] animate-pulse" />
+              <span>AI &amp; ML ENGINEER • DEEP LEARNING &amp; COMPUTER VISION</span>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* ── Slide 1 Bottom Static Bar (Only visible before scrolling) ─ */}
+        <motion.div
+          style={{ opacity: slide1BottomOpacity }}
+          className="w-full max-w-[1280px] mx-auto flex items-center justify-between text-xs sm:text-sm font-inter text-[#444444] z-10 pointer-events-none"
+        >
+          <div className="font-archivo font-bold text-sm sm:text-base text-[#111111]">
+            ©2026
+          </div>
+          <div className="font-mono text-xs text-[#666666]">
+            /CREATING SINCE 2020 • SRM IST
+          </div>
+        </motion.div>
+
+        {/* ── Center Stage: Morphing Portrait + Slide 2 Bio Grid ───────── */}
+        <div
+          id="about"
+          className="absolute inset-0 w-full h-full flex items-center justify-center pointer-events-none z-20 px-6 sm:px-10 lg:px-16"
+        >
+          <div className="w-full max-w-[1280px] mx-auto flex flex-col lg:grid lg:grid-cols-12 gap-6 lg:gap-8 items-center justify-center">
+
+            {/* Slide 2 Left Bio Column (Desktop) */}
             <motion.div
               style={{
-                rotateY,
-                scale,
-                transformStyle: 'preserve-3d',
+                opacity: bioLeftOpacity,
+                x: bioLeftX,
+                y: bioLeftY,
               }}
-              whileHover={{ scale: 1.03 }}
-              transition={{ duration: 0.3 }}
-              className="w-64 sm:w-72 md:w-80 aspect-[3/4] rounded-[28px] relative cursor-pointer shadow-[0_24px_60px_rgba(0,0,0,0.22)] border-2 border-white select-none"
+              className="hidden lg:flex lg:col-span-4 flex-col justify-between gap-6 pointer-events-auto"
             >
-              {/* Front Face: Original Dark Headshot (visible in Hero at scroll 0) */}
-              <div
-                className="absolute inset-0 w-full h-full rounded-[28px] overflow-hidden bg-[#111111]"
-                style={{
-                  backfaceVisibility: 'hidden',
-                  WebkitBackfaceVisibility: 'hidden',
-                }}
-              >
-                <img
-                  src="/assets/tamilselvan_original.jpg"
-                  alt="Tamilselvan P"
-                  className="w-full h-full object-cover grayscale contrast-125"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex items-end p-5">
-                  <span className="text-white text-xs font-mono font-medium tracking-wider">/TAMILSELVAN P</span>
-                </div>
+              <div className="text-sm sm:text-base font-archivo font-bold text-[#111111]">
+                ©2026
               </div>
 
-              {/* Back Face: Crimson-Red Backlit Portrait (revealed upon 180° flip on scroll) */}
-              <div
-                className="absolute inset-0 w-full h-full rounded-[28px] overflow-hidden bg-[#111111]"
+              <div className="flex flex-col gap-4">
+                <h2 className="font-archivo font-black text-5xl sm:text-6xl md:text-7xl
+                               text-[#111111] tracking-tight leading-none">
+                  Hey!
+                </h2>
+                <p className="font-inter text-sm sm:text-base text-[#333333] leading-relaxed">
+                  I'm Tamilselvan, an AI/ML Engineer and researcher based in Chennai,
+                  India, completing my B.Tech in CSE (AI &amp; ML) at SRM Institute of
+                  Science and Technology (CGPA: 8.20/10).
+                </p>
+                <p className="font-inter text-xs sm:text-sm text-[#555555] leading-relaxed">
+                  Passionate about developing clean, robust machine learning architectures
+                  bridging cutting-edge research with production-grade web systems.
+                </p>
+              </div>
+            </motion.div>
+
+            {/* Center: The Single Morphing Portrait Card */}
+            <div className="lg:col-span-4 flex justify-center items-center py-2 [perspective:1200px]">
+              <motion.div
                 style={{
-                  backfaceVisibility: 'hidden',
-                  WebkitBackfaceVisibility: 'hidden',
-                  transform: 'rotateY(180deg)',
+                  scale: portraitScale,
+                  y: portraitY,
+                  rotateY: portraitRotateY,
                 }}
+                className="relative w-64 sm:w-72 md:w-80 aspect-[3/4] rounded-[28px]
+                           overflow-hidden shadow-[0_28px_64px_rgba(0,0,0,0.24)]
+                           border-2 border-white/70 pointer-events-auto origin-center transform-gpu"
               >
-                <img
-                  src="/assets/tamilselvan_cinematic_red.jpg"
-                  alt="Tamilselvan P - AI & ML Engineer"
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end p-5">
-                  <span className="text-white text-xs font-mono font-medium tracking-wider">/AI & ML ENGINEER</span>
+                {/* Layer A – Monochrome silhouette (Slide 1 look) */}
+                <motion.div
+                  style={{ opacity: monoLayerOpacity }}
+                  className="absolute inset-0 w-full h-full"
+                >
+                  <img
+                    src="/assets/tamilselvan_original.jpg"
+                    alt="Tamilselvan P"
+                    className="w-full h-full object-cover object-top"
+                    style={{
+                      filter: 'grayscale(1) contrast(1.18) brightness(0.88)',
+                    }}
+                  />
+                  <div
+                    className="absolute inset-0"
+                    style={{
+                      background:
+                        'linear-gradient(to top, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.12) 50%, transparent 100%)',
+                    }}
+                  />
+                </motion.div>
+
+                {/* Layer B – Vivid Red-Backlit Treatment (Slide 2 look) */}
+                <motion.div
+                  style={{ opacity: colorLayerOpacity }}
+                  className="absolute inset-0 w-full h-full"
+                >
+                  <img
+                    src="/assets/tamilselvan_original.jpg"
+                    alt=""
+                    aria-hidden="true"
+                    className="w-full h-full object-cover object-top"
+                    style={{
+                      filter:
+                        'saturate(1.6) contrast(1.1) brightness(0.85) hue-rotate(-10deg)',
+                    }}
+                  />
+                  <div
+                    className="absolute inset-0"
+                    style={{
+                      background:
+                        'linear-gradient(to top, rgba(120,0,0,0.68) 0%, rgba(80,0,10,0.25) 45%, transparent 80%)',
+                    }}
+                  />
+                  <div
+                    className="absolute inset-0"
+                    style={{
+                      background:
+                        'radial-gradient(ellipse at 50% 0%, rgba(200,40,20,0.18) 0%, transparent 65%)',
+                      mixBlendMode: 'screen',
+                    }}
+                  />
+                </motion.div>
+
+                {/* Name label watermark */}
+                <div className="absolute bottom-0 left-0 right-0 z-10 p-4 sm:p-5">
+                  <span className="text-white text-[10px] font-mono font-medium tracking-[0.18em] uppercase opacity-90">
+                    /TAMILSELVAN P
+                  </span>
+                </div>
+              </motion.div>
+            </div>
+
+            {/* Slide 2 Right Bio Column (Desktop) */}
+            <motion.div
+              style={{
+                opacity: bioRightOpacity,
+                x: bioRightX,
+                y: bioRightY,
+              }}
+              className="hidden lg:flex lg:col-span-4 flex-col justify-between gap-6 pointer-events-auto"
+            >
+              <div className="text-xs sm:text-sm font-inter font-medium text-[#666666] lg:text-right">
+                /CREATING SINCE 2020 • SRM IST
+              </div>
+
+              <div className="flex flex-col gap-4">
+                <p className="font-inter text-xs sm:text-sm text-[#444444] leading-relaxed">
+                  I specialize in Deep Learning and Computer Vision, with hands-on
+                  experience building image classification, quantum-classical image
+                  restoration, and full-stack ML systems.
+                </p>
+
+                <p className="font-inter text-xs sm:text-sm text-[#444444] leading-relaxed">
+                  Experienced in PyTorch, TensorFlow, CNNs, U-Net, transfer learning,
+                  ONNX inference, and deploying machine learning applications through
+                  REST APIs and responsive web interfaces.
+                </p>
+
+                <div className="flex flex-wrap items-center gap-3 pt-2">
+                  <a
+                    href="#works"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full
+                               bg-[#111111] text-white font-inter font-semibold text-xs
+                               hover:bg-black hover:scale-105 active:scale-95
+                               transition-all shadow-md group"
+                  >
+                    <span>View Projects</span>
+                    <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                  </a>
+                  <a
+                    href="#contact"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full
+                               border border-[#111111]/20 text-[#111111] font-inter font-semibold text-xs
+                               hover:border-[#111111]/60 hover:scale-105 active:scale-95
+                               transition-all"
+                  >
+                    <span>Get in Touch</span>
+                  </a>
                 </div>
               </div>
             </motion.div>
-          </div>
 
-          {/* Right Column: /CREATING SINCE 2020 at top, then Technical Bio & CTA */}
-          <div className="lg:col-span-4 flex flex-col justify-between h-full gap-8">
-            <div className="text-xs sm:text-sm font-inter font-medium text-[#666666] lg:text-right pt-2">
-              /CREATING SINCE 2020 • SRM IST
-            </div>
-
+            {/* Slide 2 Mobile Bio Content (Stacked cleanly under portrait) */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7, delay: 0.15 }}
-              className="flex flex-col gap-5 pt-2 lg:pt-16"
+              style={{ opacity: bioLeftOpacity, y: bioLeftY }}
+              className="lg:hidden flex flex-col gap-4 text-center pointer-events-auto max-w-md mx-auto"
             >
-              <p className="font-inter text-sm sm:text-base text-[#444444] leading-relaxed">
-                I specialize in Deep Learning and Computer Vision, with hands-on experience building image classification, quantum-classical image restoration, and full-stack ML systems.
+              <h2 className="font-archivo font-black text-4xl text-[#111111] tracking-tight leading-none">
+                Hey!
+              </h2>
+              <p className="font-inter text-xs sm:text-sm text-[#333333] leading-relaxed">
+                I'm Tamilselvan, an AI/ML Engineer and researcher based in Chennai,
+                completing B.Tech in CSE (AI &amp; ML) at SRM IST (CGPA: 8.20/10).
               </p>
-
-              <p className="font-inter text-sm sm:text-base text-[#444444] leading-relaxed">
-                Experienced in PyTorch, TensorFlow, CNNs, U-Net, transfer learning, ONNX inference, and deploying machine learning applications through REST APIs and responsive web interfaces.
-              </p>
-
-              <div className="pt-2">
+              <div className="flex justify-center gap-3 pt-2">
                 <a
                   href="#works"
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#111111] text-white font-inter font-semibold text-xs hover:bg-black hover:scale-105 active:scale-95 transition-all shadow-md group"
+                  className="px-4 py-2 rounded-full bg-[#111111] text-white text-xs font-semibold"
                 >
-                  <span>Get Started</span>
-                  <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                  View Projects
+                </a>
+                <a
+                  href="#contact"
+                  className="px-4 py-2 rounded-full border border-[#111111]/20 text-[#111111] text-xs font-semibold"
+                >
+                  Contact
                 </a>
               </div>
             </motion.div>
+
           </div>
-
         </div>
-      </div>
 
+      </div>
     </section>
   );
 };
-

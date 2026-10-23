@@ -49,7 +49,7 @@ export const ExperienceCertificationsSection: React.FC = () => {
   return (
     <section id="experience" className="w-full bg-[#FAF7F3] py-20 sm:py-28 md:py-32 px-6 sm:px-10 lg:px-16 border-b border-[#111111]/8">
       <div className="max-w-[1200px] mx-auto flex flex-col gap-10 sm:gap-14">
-        
+
         {/* Section Header matching Video 00:19 */}
         <div className="flex flex-col sm:flex-row justify-between sm:items-end gap-4 pb-4">
           <div>

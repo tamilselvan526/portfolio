@@ -24,7 +24,7 @@ export const ServicesSection: React.FC = () => {
   return (
     <section id="services" className="w-full bg-[#FAF7F3] py-20 sm:py-28 md:py-32 px-6 sm:px-10 lg:px-16 border-b border-[#111111]/8">
       <div className="max-w-[1200px] mx-auto flex flex-col gap-10 sm:gap-14">
-        
+
         {/* Section Header */}
         <div>
           <h2 className="font-archivo font-black text-4xl sm:text-5xl md:text-6xl text-[#111111] tracking-tight">

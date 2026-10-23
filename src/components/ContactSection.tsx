@@ -31,7 +31,7 @@ export const ContactSection: React.FC = () => {
     <section id="contact" className="w-full bg-[#FAF7F3] py-20 sm:py-28 md:py-32 px-6 sm:px-10 lg:px-16 border-b border-[#111111]/8">
       <div className="max-w-[1200px] mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-          
+
           {/* Left Column: Big "Let's talk." matching Video 00:25 */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}

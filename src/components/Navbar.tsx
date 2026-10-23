@@ -26,11 +26,10 @@ export const Navbar: React.FC = () => {
     <>
       <header className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 flex justify-center px-4 pt-4 sm:pt-6 pointer-events-none">
         <nav
-          className={`pointer-events-auto flex items-center justify-between gap-5 sm:gap-7 px-4 sm:px-6 py-2.5 sm:py-3 rounded-full transition-all duration-300 ${
-            isScrolled
+          className={`pointer-events-auto flex items-center justify-between gap-5 sm:gap-7 px-4 sm:px-6 py-2.5 sm:py-3 rounded-full transition-all duration-300 ${isScrolled
               ? 'bg-[#111111]/95 backdrop-blur-xl border border-white/15 shadow-[0_12px_36px_rgba(0,0,0,0.35)]'
               : 'bg-[#111111]/90 backdrop-blur-md border border-white/10 shadow-[0_8px_24px_rgba(0,0,0,0.25)]'
-          }`}
+            }`}
         >
           {/* Brand Logo matching Majd Framer capsule */}
           <a
