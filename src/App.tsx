@@ -39,7 +39,7 @@ export const App: React.FC = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#FAF7F3] text-[#111111] selection:bg-[#111111] selection:text-[#FAF7F3] relative overflow-x-hidden">
+    <div className="min-h-screen bg-[#FAF7F3] text-[#111111] selection:bg-[#111111] selection:text-[#FAF7F3] relative overflow-x-clip">
       <Navbar />
       <main>
         <Hero />
