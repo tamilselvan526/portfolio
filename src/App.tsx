@@ -7,7 +7,6 @@ import { ServicesSection } from './components/ServicesSection';
 import { ProjectsSection } from './components/ProjectsSection';
 import { ExperienceCertificationsSection } from './components/ExperienceCertificationsSection';
 import { ThoughtsSection } from './components/ThoughtsSection';
-import { TestimonialsSection } from './components/TestimonialsSection';
 import { ContactSection } from './components/ContactSection';
 import { FooterSection } from './components/FooterSection';
 
@@ -46,7 +45,6 @@ export const App: React.FC = () => {
         <KineticBanner />
         <ServicesSection />
         <ProjectsSection />
-        <TestimonialsSection />
         <ExperienceCertificationsSection />
         <ThoughtsSection />
         <ContactSection />
