@@ -53,39 +53,83 @@ export const TestimonialsSection: React.FC = () => {
           </p>
         </div>
 
-        {/* 2x2 Clean Testimonial Bento Grid */}
+        {/* 2x2 Clean 3D Flip Card Testimonial Grid matching Reference */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
           {testimonials.map((item, index) => (
             <motion.div
               key={item.author}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 25 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              className="framer-card rounded-3xl p-8 sm:p-10 flex flex-col justify-between gap-6"
+              transition={{ duration: 0.6, delay: index * 0.08 }}
+              className="relative h-[290px] sm:h-[260px] group select-none"
+              style={{ perspective: '1200px' }}
             >
-              <div className="flex flex-col gap-4">
-                <Quote className="w-6 h-6 text-[#111111]/20" />
-                <p className="font-inter text-base sm:text-lg text-[#222222] leading-relaxed">
-                  “{item.quote}”
-                </p>
-              </div>
+              <div className="relative w-full h-full transition-transform duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)] cursor-pointer">
+                
+                {/* Front Face: Quote & Avatar preview */}
+                <div
+                  className="absolute inset-0 w-full h-full rounded-3xl p-7 sm:p-8 flex flex-col justify-between bg-[#FAF7F3] border border-[#111111]/10 shadow-[0_4px_20px_rgba(0,0,0,0.03)] [backface-visibility:hidden] -webkit-[backface-visibility:hidden]"
+                >
+                  <div className="flex flex-col gap-3">
+                    <Quote className="w-5 h-5 text-[#111111]/25" />
+                    <p className="font-inter text-sm sm:text-base text-[#222222] leading-relaxed line-clamp-4">
+                      “{item.quote}”
+                    </p>
+                  </div>
 
-              {/* Author Info */}
-              <div className="flex items-center gap-3.5 pt-4 border-t border-[#111111]/6">
-                <img
-                  src={item.avatar}
-                  alt={item.author}
-                  className="w-10 h-10 rounded-full object-cover border border-[#111111]/10"
-                />
-                <div>
-                  <h4 className="font-archivo font-bold text-sm text-[#111111]">
-                    {item.author}
-                  </h4>
-                  <p className="text-xs font-inter text-[#666666]">
-                    {item.title}
-                  </p>
+                  <div className="flex items-center justify-between pt-3 border-t border-[#111111]/8">
+                    <div className="flex items-center gap-3">
+                      <img
+                        src={item.avatar}
+                        alt={item.author}
+                        className="w-9 h-9 rounded-full object-cover border border-[#111111]/10"
+                      />
+                      <div>
+                        <h4 className="font-archivo font-bold text-sm text-[#111111]">
+                          {item.author}
+                        </h4>
+                        <p className="text-[11px] font-inter text-[#666666]">
+                          {item.title}
+                        </p>
+                      </div>
+                    </div>
+                    <span className="text-[10px] font-mono uppercase tracking-wider text-[#999999] bg-[#111111]/5 px-2.5 py-1 rounded-full group-hover:text-[#EB4D6D] transition-colors">
+                      Flip ⟳
+                    </span>
+                  </div>
                 </div>
+
+                {/* Back Face: Dark Card Face matching Reference Site 3D Card Face */}
+                <div
+                  className="absolute inset-0 w-full h-full rounded-3xl p-7 sm:p-8 flex flex-col justify-between bg-[#111111] text-white border border-[#222222] shadow-[0_12px_32px_rgba(0,0,0,0.25)] [transform:rotateY(180deg)] [backface-visibility:hidden] -webkit-[backface-visibility:hidden]"
+                >
+                  <div className="flex flex-col gap-3">
+                    <div className="inline-flex items-center gap-1.5 text-xs font-mono text-[#EB4D6D] uppercase tracking-wider">
+                      <span>/ VERIFIED COLLABORATION</span>
+                    </div>
+                    <p className="font-inter text-xs sm:text-sm text-white/80 leading-relaxed">
+                      “{item.quote}”
+                    </p>
+                  </div>
+
+                  <div className="flex items-center gap-3 pt-3 border-t border-white/10">
+                    <img
+                      src={item.avatar}
+                      alt={item.author}
+                      className="w-8 h-8 rounded-full object-cover border border-white/20"
+                    />
+                    <div>
+                      <h4 className="font-archivo font-bold text-sm text-white">
+                        {item.author}
+                      </h4>
+                      <p className="text-[11px] font-inter text-white/60">
+                        {item.title}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
               </div>
             </motion.div>
           ))}

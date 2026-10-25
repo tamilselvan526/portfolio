@@ -63,7 +63,7 @@ export const ProjectsSection: React.FC = () => {
           </a>
         </div>
 
-        {/* 2-Column Grid matching Video 00:15 */}
+        {/* 2-Column Grid matching Reference */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
           {projects.map((project, index) => (
             <motion.a
@@ -75,24 +75,27 @@ export const ProjectsSection: React.FC = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.7, delay: index * 0.1 }}
+              whileHover={{ y: -4 }}
               className="flex flex-col gap-4 group cursor-pointer"
             >
               {/* Rounded Project Thumbnail Container with smooth zoom */}
-              <div className="w-full aspect-[16/10] rounded-[24px] overflow-hidden bg-[#ECEAE5] border border-[#111111]/8 shadow-sm relative">
+              <div className="w-full aspect-[16/10] rounded-[24px] overflow-hidden bg-[#ECEAE5] border border-[#111111]/8 shadow-[0_4px_20px_rgba(0,0,0,0.03)] group-hover:shadow-[0_12px_36px_rgba(0,0,0,0.08)] transition-shadow duration-500 relative">
                 <img
                   src={project.image}
                   alt={project.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                  className="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-700 [transition-timing-function:cubic-bezier(0.16,1,0.3,1)]"
                 />
               </div>
 
-              {/* Title & Category Below Image matching Video 00:17 */}
+              {/* Title & Category Below Image */}
               <div className="flex flex-col gap-1">
                 <div className="flex items-center justify-between">
-                  <h3 className="font-archivo font-bold text-2xl sm:text-3xl text-[#111111] tracking-tight group-hover:text-[#EB4D6D] transition-colors">
+                  <h3 className="font-archivo font-bold text-2xl sm:text-3xl text-[#111111] tracking-tight group-hover:text-[#EB4D6D] transition-colors duration-300">
                     {project.title}
                   </h3>
-                  <ArrowUpRight className="w-5 h-5 text-[#888888] opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
+                  <div className="w-8 h-8 rounded-full bg-[#111111]/5 flex items-center justify-center group-hover:bg-[#111111] transition-colors duration-300">
+                    <ArrowUpRight className="w-4 h-4 text-[#444444] group-hover:text-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300" />
+                  </div>
                 </div>
                 <div className="text-xs sm:text-sm font-inter text-[#666666]">
                   {project.category}

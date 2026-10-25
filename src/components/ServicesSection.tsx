@@ -32,7 +32,7 @@ export const ServicesSection: React.FC = () => {
           </h2>
         </div>
 
-        {/* Editorial Rows with Divider Lines matching Video 00:11 */}
+        {/* Editorial Rows with Divider Lines matching Reference */}
         <div className="flex flex-col border-t border-[#111111]/12">
           {serviceRows.map((service, index) => (
             <motion.div
@@ -41,20 +41,21 @@ export const ServicesSection: React.FC = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.08 }}
-              className="py-7 sm:py-9 border-b border-[#111111]/12 flex flex-col md:flex-row md:items-center justify-between gap-4 group cursor-pointer hover:bg-black/[0.02] px-3 sm:px-4 -mx-3 sm:-mx-4 rounded-xl transition-all"
+              className="py-7 sm:py-9 border-b border-[#111111]/12 flex flex-col md:flex-row md:items-center justify-between gap-4 group cursor-pointer hover:bg-black/[0.025] px-4 -mx-4 rounded-2xl transition-all duration-300"
             >
-              {/* Left Title with smooth slide on hover */}
+              {/* Left Title with smooth slide and arrow indicator */}
               <div className="flex items-center gap-3">
-                <span className="font-archivo font-bold text-xl sm:text-2xl md:text-3xl text-[#111111] tracking-tight group-hover:translate-x-2 group-hover:text-[#EB4D6D] transition-all duration-300">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#EB4D6D] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <span className="font-archivo font-bold text-xl sm:text-2xl md:text-3xl text-[#111111] tracking-tight group-hover:translate-x-2 group-hover:text-[#EB4D6D] transition-transform duration-300">
                   {service.title}
                 </span>
               </div>
 
-              {/* Right Tag List matching Video 00:11 */}
+              {/* Right Tag List */}
               <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs sm:text-sm font-inter text-[#666666]">
                 {service.tags.map((tag, tIdx) => (
                   <React.Fragment key={tag}>
-                    <span className="group-hover:text-[#111111] transition-colors">
+                    <span className="group-hover:text-[#111111] group-hover:bg-[#111111]/5 px-2.5 py-1 rounded-full transition-all duration-200">
                       {tag}
                     </span>
                     {tIdx < service.tags.length - 1 && (
