@@ -9,6 +9,7 @@ interface CredentialItem {
   period: string;
   description: string;
   icon: React.ElementType;
+  badge: string;
 }
 
 interface CredentialCardProps {
@@ -43,7 +44,7 @@ const CredentialCard: React.FC<CredentialCardProps> = ({ item, index, symbol, is
       >
         {/* Front Face: Plain Black Card with Center Minimalist Symbol (Initial state) */}
         <div
-          className="absolute inset-0 w-full h-full rounded-3xl bg-[#0F0F0F] border border-white/10 shadow-[0_12px_36px_rgba(0,0,0,0.22)] flex items-center justify-center p-8 select-none"
+          className="absolute inset-0 w-full h-full rounded-3xl bg-[#111111] border border-white/10 shadow-[0_12px_36px_rgba(0,0,0,0.22)] flex items-center justify-center p-8 select-none"
           style={{
             backfaceVisibility: 'hidden',
             WebkitBackfaceVisibility: 'hidden',
@@ -54,35 +55,45 @@ const CredentialCard: React.FC<CredentialCardProps> = ({ item, index, symbol, is
           </div>
         </div>
 
-        {/* Back Face: Clean Credential Content matching ref 4 (Revealed after 180° flip) */}
+        {/* Back Face: Exact layout matching user provided image (Revealed after 180° flip) */}
         <div
-          className="absolute inset-0 w-full h-full rounded-3xl bg-[#0F0F0F] text-white p-6 sm:p-7 flex flex-col justify-between shadow-[0_12px_36px_rgba(0,0,0,0.2)] border border-white/10 select-none"
+          className="absolute inset-0 w-full h-full rounded-3xl bg-[#111111] text-white p-7 flex flex-col justify-between shadow-[0_12px_36px_rgba(0,0,0,0.2)] border border-white/10 select-none"
           style={{
             backfaceVisibility: 'hidden',
             WebkitBackfaceVisibility: 'hidden',
             transform: 'rotateY(180deg)',
           }}
         >
-          {/* Upper Text Description matching ref 4 layout */}
-          <div className="pt-1">
-            <p className="font-inter text-[12.5px] sm:text-[13px] text-white/80 leading-[1.65] font-normal">
+          <div className="flex flex-col gap-3.5">
+            {/* Top Bar inside Dark Card */}
+            <div className="flex items-center justify-between text-[11px] font-mono text-white/50 tracking-wider">
+              <span>{item.category}</span>
+              <Icon className="w-4 h-4 text-white/70" />
+            </div>
+
+            <div>
+              <h3 className="font-archivo font-bold text-lg text-white leading-snug">
+                {item.title}
+              </h3>
+              <div className="text-xs font-inter font-medium text-[#EB4D6D] mt-0.5">
+                {item.role}
+              </div>
+              <div className="text-[11px] font-inter text-white/50 mt-0.5">
+                {item.period}
+              </div>
+            </div>
+
+            <p className="font-inter text-xs text-white/70 leading-relaxed">
               {item.description}
             </p>
           </div>
 
-          {/* Bottom Profile / Credential Info matching ref 4 layout */}
-          <div className="flex items-center gap-3 pt-3.5 border-t border-white/10">
-            <div className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center shrink-0 border border-white/10 text-white">
-              <Icon className="w-4 h-4 text-white/90" />
-            </div>
-            <div className="flex flex-col min-w-0">
-              <h4 className="font-archivo font-bold text-xs sm:text-[13px] text-white truncate leading-snug">
-                {item.title}
-              </h4>
-              <p className="font-inter text-[11px] text-white/50 truncate mt-0.5">
-                {item.role} • {item.period}
-              </p>
-            </div>
+          {/* Bottom Tag with Green Indicator */}
+          <div className="pt-3 flex items-center gap-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#10B981]" />
+            <span className="text-[11px] font-inter text-white/60">
+              {item.badge}
+            </span>
           </div>
         </div>
       </motion.div>
@@ -107,33 +118,37 @@ export const ExperienceCertificationsSection: React.FC = () => {
       description:
         'Developed and integrated responsive web applications, designing RESTful APIs and managing database operations for efficient data handling. Focused on performance optimization, scalability, and reliability through rigorous testing.',
       icon: Briefcase,
+      badge: 'Full-Stack & APIs',
     },
     {
       category: 'EDUCATION',
       title: 'SRM Institute of Science & Technology',
       role: 'B.Tech in CSE (AI & ML)',
-      period: '2023 – 2027 • CGPA: 8.20',
+      period: '2023 – 2027 • CGPA: 8.20/10',
       description:
         'Specializing in Deep Learning, Computer Vision, Quantum Machine Learning, and Intelligent Systems. Conducting applied research on hybrid quantum-classical U-Nets and industrial visual defect inspection.',
       icon: GraduationCap,
+      badge: 'AI & ML Major',
     },
     {
       category: 'GLOBAL CERTIFICATION',
       title: 'Oracle Cloud Infrastructure',
-      role: 'Certified GenAI Professional',
+      role: 'Certified Generative AI Professional',
       period: 'Issued 2025',
       description:
         'Certified expertise in foundational LLM architectures, fine-tuning, prompt engineering, Retrieval-Augmented Generation (RAG), vector embeddings, and enterprise generative AI solutions on OCI.',
       icon: Award,
+      badge: 'Oracle Certified',
     },
     {
       category: 'TECHNICAL CERTIFICATIONS',
       title: 'NPTEL & Cisco Networking',
-      role: 'ML & Networks Certified',
-      period: 'Verified Credential',
+      role: 'Machine Learning & Networks',
+      period: 'NPTEL + Cisco Certified',
       description:
         'Introduction to Machine Learning (NPTEL) covering classification, regression, and model evaluation, alongside Cisco Networking Basics validating core protocol and architecture proficiency.',
       icon: CheckCircle2,
+      badge: 'Verified Credential',
     },
   ];
 
