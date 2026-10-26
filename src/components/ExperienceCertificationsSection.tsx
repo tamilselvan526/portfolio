@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { motion, useInView } from 'motion/react';
 import { Briefcase, Award, GraduationCap, CheckCircle2 } from 'lucide-react';
 
@@ -21,82 +21,103 @@ interface CredentialCardProps {
 
 const CredentialCard: React.FC<CredentialCardProps> = ({ item, index, symbol, isInView }) => {
   const Icon = item.icon;
+  const [hasFlipped, setHasFlipped] = useState(false);
+
+  // Content face matching user provided reference image
+  const cardContent = (
+    <div className="w-full h-full rounded-3xl bg-[#111111] text-white p-7 flex flex-col justify-between shadow-[0_12px_36px_rgba(0,0,0,0.2)] border border-white/10 select-none antialiased">
+      <div className="flex flex-col gap-3.5">
+        {/* Top Bar inside Dark Card */}
+        <div className="flex items-center justify-between text-[11px] font-mono text-white/50 tracking-wider">
+          <span>{item.category}</span>
+          <Icon className="w-4 h-4 text-white/70" />
+        </div>
+
+        <div>
+          <h3 className="font-archivo font-bold text-lg text-white leading-snug">
+            {item.title}
+          </h3>
+          <div className="text-xs font-inter font-medium text-[#EB4D6D] mt-0.5">
+            {item.role}
+          </div>
+          <div className="text-[11px] font-inter text-white/50 mt-0.5">
+            {item.period}
+          </div>
+        </div>
+
+        <p className="font-inter text-xs text-white/70 leading-relaxed">
+          {item.description}
+        </p>
+      </div>
+
+      {/* Bottom Tag with Green Indicator */}
+      <div className="pt-3 flex items-center gap-2">
+        <span className="w-1.5 h-1.5 rounded-full bg-[#10B981]" />
+        <span className="text-[11px] font-inter text-white/60">
+          {item.badge}
+        </span>
+      </div>
+    </div>
+  );
 
   return (
     <motion.div
       whileHover={{ scale: 1.025, y: -5 }}
-      transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 0.25, ease: 'easeOut' }}
       className="relative h-[410px] sm:h-[420px] select-none cursor-pointer"
-      style={{ perspective: '1200px' }}
+      style={{
+        perspective: hasFlipped ? undefined : '1200px',
+      }}
     >
-      <motion.div
-        initial={{ rotateY: 0 }}
-        animate={{ rotateY: isInView ? 180 : 0 }}
-        transition={{
-          duration: 0.85,
-          delay: 0.08 + index * 0.12,
-          ease: [0.16, 1, 0.3, 1],
-        }}
-        style={{
-          transformStyle: 'preserve-3d',
-        }}
-        className="relative w-full h-full"
-      >
-        {/* Front Face: Plain Black Card with Center Minimalist Symbol (Initial state) */}
-        <div
-          className="absolute inset-0 w-full h-full rounded-3xl bg-[#111111] border border-white/10 shadow-[0_12px_36px_rgba(0,0,0,0.22)] flex items-center justify-center p-8 select-none"
-          style={{
-            backfaceVisibility: 'hidden',
-            WebkitBackfaceVisibility: 'hidden',
+      {hasFlipped ? (
+        // Once flipped, render the static 2D card for 100% crisp, razor-sharp text on hover
+        cardContent
+      ) : (
+        // 3D Flipping animation container during scroll entrance
+        <motion.div
+          initial={{ rotateY: 0 }}
+          animate={{ rotateY: isInView ? 180 : 0 }}
+          transition={{
+            duration: 0.85,
+            delay: 0.08 + index * 0.12,
+            ease: [0.16, 1, 0.3, 1],
           }}
-        >
-          <div className="flex items-center justify-center">
-            {symbol}
-          </div>
-        </div>
-
-        {/* Back Face: Exact layout matching user provided image (Revealed after 180° flip) */}
-        <div
-          className="absolute inset-0 w-full h-full rounded-3xl bg-[#111111] text-white p-7 flex flex-col justify-between shadow-[0_12px_36px_rgba(0,0,0,0.2)] border border-white/10 select-none"
-          style={{
-            backfaceVisibility: 'hidden',
-            WebkitBackfaceVisibility: 'hidden',
-            transform: 'rotateY(180deg)',
+          onAnimationComplete={() => {
+            if (isInView) {
+              setHasFlipped(true);
+            }
           }}
+          style={{
+            transformStyle: 'preserve-3d',
+          }}
+          className="relative w-full h-full"
         >
-          <div className="flex flex-col gap-3.5">
-            {/* Top Bar inside Dark Card */}
-            <div className="flex items-center justify-between text-[11px] font-mono text-white/50 tracking-wider">
-              <span>{item.category}</span>
-              <Icon className="w-4 h-4 text-white/70" />
+          {/* Front Face: Plain Black Card with Center Minimalist Symbol (Initial state) */}
+          <div
+            className="absolute inset-0 w-full h-full rounded-3xl bg-[#111111] border border-white/10 shadow-[0_12px_36px_rgba(0,0,0,0.22)] flex items-center justify-center p-8 select-none"
+            style={{
+              backfaceVisibility: 'hidden',
+              WebkitBackfaceVisibility: 'hidden',
+            }}
+          >
+            <div className="flex items-center justify-center">
+              {symbol}
             </div>
-
-            <div>
-              <h3 className="font-archivo font-bold text-lg text-white leading-snug">
-                {item.title}
-              </h3>
-              <div className="text-xs font-inter font-medium text-[#EB4D6D] mt-0.5">
-                {item.role}
-              </div>
-              <div className="text-[11px] font-inter text-white/50 mt-0.5">
-                {item.period}
-              </div>
-            </div>
-
-            <p className="font-inter text-xs text-white/70 leading-relaxed">
-              {item.description}
-            </p>
           </div>
 
-          {/* Bottom Tag with Green Indicator */}
-          <div className="pt-3 flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#10B981]" />
-            <span className="text-[11px] font-inter text-white/60">
-              {item.badge}
-            </span>
+          {/* Back Face: revealed as it flips 180° */}
+          <div
+            className="absolute inset-0 w-full h-full"
+            style={{
+              backfaceVisibility: 'hidden',
+              WebkitBackfaceVisibility: 'hidden',
+              transform: 'rotateY(180deg)',
+            }}
+          >
+            {cardContent}
           </div>
-        </div>
-      </motion.div>
+        </motion.div>
+      )}
     </motion.div>
   );
 };
